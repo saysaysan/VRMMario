@@ -1,31 +1,36 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum Stage
+{
+    Grassland,
+    Desert,
+    Snowfield,
+    Sky,
+    Jungle,
+    Lava,
+    Underwater,
+    BowserCastle
+}
+
 public class StageManager : MonoBehaviour
 {
-    public enum Stage
-    {
-        Grassland,
-        Desert,
-        Snowfield,
-        Sky,
-        Jungle,
-        Lava,
-        Underwater,
-        BowserCastle
-    }
-
-    public Stage currentStage = Stage.Grassland;
+    public Stage CurrentStage { get; private set; } = Stage.Grassland;
 
     public void LoadStage(Stage stage)
     {
-        currentStage = stage;
+        CurrentStage = stage;
         SceneManager.LoadScene(stage.ToString());
+    }
+
+    public void ReloadCurrentStage()
+    {
+        SceneManager.LoadScene(CurrentStage.ToString());
     }
 
     public void LoadNextStage()
     {
-        int next = ((int)currentStage + 1) % System.Enum.GetNames(typeof(Stage)).Length;
+        int next = ((int)CurrentStage + 1) % System.Enum.GetNames(typeof(Stage)).Length;
         LoadStage((Stage)next);
     }
 }
