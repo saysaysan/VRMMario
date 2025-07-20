@@ -5,11 +5,13 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     private Rigidbody rb;
-    private bool isGrounded;
+    private int jumpCount;
+    public int maxJumpCount = 2;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        jumpCount = 0;
     }
 
     void Update()
@@ -20,11 +22,11 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
 
-        // Jumping
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        // Jumping and Double Jumping
+        if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
         {
             rb.AddForce(new Vector3(0.0f, jumpForce, 0.0f), ForceMode.Impulse);
-            isGrounded = false;
+            jumpCount++;
         }
     }
 
@@ -32,7 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
+            jumpCount = 0;
         }
     }
 }
