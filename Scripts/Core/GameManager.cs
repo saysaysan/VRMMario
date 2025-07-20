@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     }
 
     public GameState CurrentState { get; private set; }
+    public int Coins { get; private set; }
 
     private void Awake()
     {
@@ -35,5 +36,10 @@ public class GameManager : MonoBehaviour
     public void ChangeState(GameState newState)
     {
         CurrentState = newState;
+    }
+
+    public void AddCoin(int amount = 1)
+    {
+        Coins += amount;
     }
 }
